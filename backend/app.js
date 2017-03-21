@@ -1,14 +1,19 @@
+require('dotenv').config();
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var cors = require('cors');
 var index = require('./routes/index');
+var api = require('./routes/api');
+
 var users = require('./routes/users');
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,8 +26,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+// app.listen(8000, function(){
+//   console.log('CORS-enabled web server listening on port 8000');
+// });
 app.use('/', index);
+app.use('/api', api);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
